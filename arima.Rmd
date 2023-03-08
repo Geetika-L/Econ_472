@@ -1,0 +1,13 @@
+---
+title: "Econ_472"
+output: html_document
+date: "2023-03-07"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+data -< read.csv()
+```
