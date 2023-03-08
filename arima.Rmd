@@ -9,5 +9,32 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-data -< read.csv()
+data <- read.csv('current.csv')
+CPI <- data$CPIAUCSL[2:length(data$CPIAUCSL)]
+CPI_ts <- ts(CPI, start=c(1959, 1), end=c(2022, 12), frequency=12)
+
+## Calculating yoy Growth
+CPI_lagged_12_ahead <- CPI[13:length(CPI)]
+CPI_no_2022 <- CPI[1:(length(CPI) -12)]
+inflation <- (CPI_lagged_12_ahead -CPI_no_2022)/CPI_no_2022 * 100
+
+## Create training and test set
+pi_train <- inflation[1:(length(inflation)-12)]
+pi_test <- inflation[(length(inflation)- 11): length(inflation)]
+
+## Covert both to time series
+pi_train_ts <- ts(pi_train, start=c(1960, 1), end=c(2021, 12), frequency=12)
+pi_test_ts <- ts(pi_test, start=c(2022, 1), end=c(2022, 12), frequency=12)
+
+model <- auto.arima(pi_train_ts)
+
+
+# model summary
+summary(model)
+
+# forecasting
+forecasting= forecast(model,h = 12)
+
+# evaluation
+rmse(pi_test_ts, forecasting$pred)
 ```
