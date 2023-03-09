@@ -34,7 +34,10 @@ summary(model)
 
 # forecasting
 forecasting= forecast(model,h = 12)
+point_forecast = as.numeric(forecasting$mean)
+## Put it in a dataframe
+data.frame(forecasting)
 
 # evaluation
-rmse(pi_test_ts, forecasting$pred)
+#rmse(pi_test_ts, forecasting$pred)
 ```
