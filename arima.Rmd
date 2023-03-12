@@ -36,7 +36,7 @@ summary(model)
 forecasting= forecast(model,h = 12)
 point_forecast = as.numeric(forecasting$mean)
 ## Put it in a dataframe
-data.frame(forecasting)
+write.csv(data.frame(forecasting), 'arima_results.csv')
 
 # evaluation
 #rmse(pi_test_ts, forecasting$pred)
